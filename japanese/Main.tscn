@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0lpean8f6reg"]
+
+[ext_resource type="Script" uid="uid://cq2n6obbvyq3f" path="res://main.gd" id="1_glv2v"]
+[ext_resource type="PackedScene" uid="uid://0mtiqhjkhl83" path="res://playground.tscn" id="2_uu6xs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_glv2v"]
+font_size = 29
+
+[sub_resource type="LabelSettings" id="LabelSettings_uu6xs"]
+font_size = 11
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r0du0"]
+font_color = Color(0, 1, 0.283333, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_glv2v")
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -114.5
+offset_top = 100.0
+offset_right = 114.5
+offset_bottom = 140.0
+grow_horizontal = 2
+text = "Select starting options"
+label_settings = SubResource("LabelSettings_glv2v")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 417.0
+offset_top = 306.0
+offset_right = 595.0
+offset_bottom = 349.0
+placeholder_text = "Write here"
+
+[node name="ConfirmButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 601.0
+offset_top = 304.0
+offset_right = 693.0
+offset_bottom = 349.0
+text = "Done lmao"
+
+[node name="StartOptions" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 148.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_constants/separation = 3
+
+[node name="HE" type="CheckBox" parent="StartOptions"]
+layout_mode = 2
+button_pressed = true
+text = "Hiragana -> English"
+
+[node name="KE" type="CheckBox" parent="StartOptions"]
+layout_mode = 2
+text = "Katakana -> English"
+
+[node name="EH" type="CheckBox" parent="StartOptions"]
+layout_mode = 2
+text = "English -> Hiragana"
+
+[node name="EK" type="CheckBox" parent="StartOptions"]
+layout_mode = 2
+text = "English -> Katakana"
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 214.0
+offset_top = 274.0
+offset_right = 349.0
+offset_bottom = 307.0
+text = "Start"
+
+[node name="DumbassLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 425.0
+offset_top = 146.0
+offset_right = 733.0
+offset_bottom = 166.0
+text = "Can't start if you don't have an option selected, dumbass"
+label_settings = SubResource("LabelSettings_uu6xs")
+
+[node name="SmartassLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 519.0
+offset_top = 176.0
+offset_right = 627.0
+offset_bottom = 199.0
+text = "That's corretc"
+label_settings = SubResource("LabelSettings_r0du0")
+
+[node name="Playground" parent="." instance=ExtResource("2_uu6xs")]
+visible = false
