@@ -1,6 +1,7 @@
 extends Control
 
 const TwoWayDict = preload("res://twowaydict.gd")
+const ESCENE = preload("res://enemy.tscn")
 
 static var hiragana_dict:TwoWayDict
 static var katakana_dict:TwoWayDict
@@ -10,13 +11,10 @@ var lists = {}
 var pick
 
 var stage = 0 #0: hiatus, 1: answering question, 2:done answering question, 3: special case
+var ellapsed:float
 
 var mistakes = 0
 var he
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_pressed():
-		print(event.as_text())
 
 static func getMatchingDict(nani:String):
 	if nani == "he" or nani == "eh":
@@ -38,6 +36,28 @@ func _ready():
 func _process(delta):
 	if Input.is_action_just_pressed("Confirm"):
 		confirmPress()
+	if stage == 0: return
+	ellapsed += delta
+	if ellapsed >= 2:
+		var newenemy = load("res://enemy.tscn").instantiate()
+		pick = counters.keys().pick_random()
+		newenemy.find_child("Label").text = lists.get(pick)[counters.get(pick)]
+		var tempsettings = LabelSettings.new()
+		tempsettings.font_size = 23
+		newenemy.find_child("Label").label_settings = tempsettings
+		print("New enemy label: " + lists.get(pick)[counters.get(pick)])
+		newenemy.targettext = hiragana_dict.getTwoFromOne(lists.get(pick)[counters.get(pick)])
+		print("new enemy target text: " + hiragana_dict.getTwoFromOne(lists.get(pick)[counters.get(pick)]))
+		newenemy.position.x = randf_range(20, float(get_window().size.x) - 20)
+		newenemy.position.y = randf_range(20, float(get_window().size.y) - 20)
+		$Playground.add_child(newenemy)
+		if counters.get(pick) == lists.get(pick).size() - 1:
+			counters.set(pick, 0)
+			lists.get(pick).shuffle()
+		else:
+			counters.set(pick, counters.get(pick) + 1)
+		ellapsed = 0
+	
 
 func startButtonPress():
 	var goodtogo = false
@@ -97,6 +117,30 @@ func start():
 	$StartOptions.visible = false
 	$StartButton.visible = false
 	$DumbassLabel.visible = false
+	$Label.visible = false
+	$Playground.visible = true
+	#$ConfirmButton.visible = true
+	#$TextEdit.visible = true
+	
+	if $StartOptions/HE.button_pressed:
+		he = hiragana_dict.one.duplicate()
+		he.shuffle()
+		counters.set("he", 0)
+		lists.set("he", he)
+	
+	#var enemyscene = load("res://enemy.tscn")
+	#var enemy:Node2D = enemyscene.instantiate()
+	#add_child(enemy)
+	#enemy.position.x = 500
+	#enemy.position.y = 500
+	
+	$Playground.visible=true
+	stage = 1
+	
+func start2():
+	$StartOptions.visible = false
+	$StartButton.visible = false
+	$DumbassLabel.visible = false
 	$ConfirmButton.visible = true
 	$TextEdit.visible = true
 	
@@ -109,4 +153,5 @@ func start():
 
 func startGame():
 	$Playground.visible=true
+	stage = 1
 	
