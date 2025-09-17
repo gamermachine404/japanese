@@ -48,8 +48,8 @@ func _process(delta):
 		print("New enemy label: " + lists.get(pick)[counters.get(pick)])
 		newenemy.targettext = hiragana_dict.getTwoFromOne(lists.get(pick)[counters.get(pick)])
 		print("new enemy target text: " + hiragana_dict.getTwoFromOne(lists.get(pick)[counters.get(pick)]))
-		newenemy.position.x = randf_range(20, float(get_window().size.x) - 20)
-		newenemy.position.y = randf_range(20, float(get_window().size.y) - 20)
+		newenemy.position.x = randf_range(20, float(get_window().size.x) - 50)
+		newenemy.position.y = randf_range(20, float(get_window().size.y) - 50)
 		$Playground.add_child(newenemy)
 		if counters.get(pick) == lists.get(pick).size() - 1:
 			counters.set(pick, 0)
