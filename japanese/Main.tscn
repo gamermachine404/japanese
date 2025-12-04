@@ -55,6 +55,24 @@ offset_right = 693.0
 offset_bottom = 349.0
 text = "Done lmao"
 
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 629.0
+offset_top = 231.0
+offset_right = 804.0
+offset_bottom = 306.0
+text = "Enemy lifetime:
+(Input a number or
+else)"
+
+[node name="TextEdit2" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 615.0
+offset_top = 314.0
+offset_right = 790.0
+offset_bottom = 349.0
+text = "10"
+
 [node name="StartOptions" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 4
@@ -68,23 +86,22 @@ theme_override_constants/separation = 3
 
 [node name="HE" type="CheckBox" parent="StartOptions"]
 layout_mode = 2
-button_pressed = true
-text = "Hiragana -> English"
+text = "Hiragana"
 
 [node name="KE" type="CheckBox" parent="StartOptions"]
 layout_mode = 2
-text = "Katakana -> English"
+text = "Katakana"
 
-[node name="EH" type="CheckBox" parent="StartOptions"]
+[node name="HED" type="CheckBox" parent="StartOptions"]
 layout_mode = 2
-text = "English -> Hiragana"
+text = "Hiragana Digraphs"
 
-[node name="EK" type="CheckBox" parent="StartOptions"]
+[node name="KED" type="CheckBox" parent="StartOptions"]
 layout_mode = 2
-text = "English -> Katakana"
+text = "Katakana Digraphs"
 
 [node name="StartButton" type="Button" parent="."]
-layout_mode = 2
+layout_mode = 0
 offset_left = 214.0
 offset_top = 274.0
 offset_right = 349.0

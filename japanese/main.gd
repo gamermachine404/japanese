@@ -5,22 +5,32 @@ const ESCENE = preload("res://enemy.tscn")
 
 static var hiragana_dict:TwoWayDict
 static var katakana_dict:TwoWayDict
+static var hiragana_dg_dict:TwoWayDict
+static var katakana_dg_dict:TwoWayDict
 
 var counters = {}
 var lists = {}
 var pick
+var lifetime:float
 
 var stage = 0 #0: hiatus, 1: answering question, 2:done answering question, 3: special case
 var ellapsed:float
 
 var mistakes = 0
 var he
+var ke
+var hed
+var ked
 
 static func getMatchingDict(nani:String):
-	if nani == "he" or nani == "eh":
+	if nani == "he":
 		return hiragana_dict
-	else:
+	elif nani == "ke":
 		return katakana_dict
+	elif nani == "hed":
+		return hiragana_dg_dict
+	elif nani == "ked":
+		return katakana_dg_dict
 
 func _ready():
 	$StartButton.pressed.connect(startButtonPress)
@@ -28,8 +38,16 @@ func _ready():
 	
 	hiragana_dict = TwoWayDict.new()
 	hiragana_dict.appendFromFile("res://hiragana.txt")
+	katakana_dict = TwoWayDict.new()
+	katakana_dict.appendFromFile("res://katakana.txt")
+	hiragana_dg_dict = TwoWayDict.new()
+	katakana_dg_dict = TwoWayDict.new()
+	hiragana_dg_dict.appendFromFile("res://hiraganadigraphs.txt")
+	katakana_dg_dict.appendFromFile("res://katakanadigraphs.txt")
 	print(hiragana_dict.one)
 	print(hiragana_dict.two)
+	print(katakana_dict.one)
+	print(katakana_dict.two)
 	#katakana_dict = TwoWayDict.new()
 	#katakana_dict.appendFromFile("res://katakana.txt")
 
@@ -45,8 +63,9 @@ func _process(delta):
 		var tempsettings = LabelSettings.new()
 		tempsettings.font_size = 23
 		newenemy.find_child("Label").label_settings = tempsettings
+		newenemy.lifetime = lifetime
 		print("New enemy label: " + lists.get(pick)[counters.get(pick)])
-		newenemy.targettext = hiragana_dict.getTwoFromOne(lists.get(pick)[counters.get(pick)])
+		newenemy.targettext = getMatchingDict(pick).getTwoFromOne(lists.get(pick)[counters.get(pick)])
 		print("new enemy target text: " + hiragana_dict.getTwoFromOne(lists.get(pick)[counters.get(pick)]))
 		newenemy.position.x = randf_range(20, float(get_window().size.x) - 50)
 		newenemy.position.y = randf_range(20, float(get_window().size.y) - 50)
@@ -127,6 +146,27 @@ func start():
 		he.shuffle()
 		counters.set("he", 0)
 		lists.set("he", he)
+	if $StartOptions/KE.button_pressed:
+		print("le mao")
+		ke = katakana_dict.one.duplicate()
+		ke.shuffle()
+		counters.set("ke", 0)
+		lists.set("ke", ke)
+	if $StartOptions/HED.button_pressed:
+		hed = hiragana_dg_dict.one.duplicate()
+		hed.shuffle()
+		counters.set("hed", 0)
+		lists.set("hed", hed)
+	if $StartOptions/KED.button_pressed:
+		ked = katakana_dg_dict.one.duplicate()
+		ked.shuffle()
+		counters.set("ked", 0)
+		lists.set("ked", ked)
+		
+	$Label2.visible = false
+	$TextEdit2.visible = false
+	lifetime = float($TextEdit2.text)
+	print(lifetime)
 	
 	#var enemyscene = load("res://enemy.tscn")
 	#var enemy:Node2D = enemyscene.instantiate()
@@ -149,6 +189,11 @@ func start2():
 		he.shuffle()
 		counters.set("he", 0)
 		lists.set("he", he)
+	if $StartOptions/KE.button_pressed:
+		ke = katakana_dict.one.duplicate()
+		ke.shuffle()
+		counters.set("ke", 0)
+		lists.set("ke", ke)
 	startGame()
 
 func startGame():

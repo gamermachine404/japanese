@@ -5,6 +5,7 @@ var targettext:String
 var elapsed:float = 0
 var state = 0 #0: alive 1: failed 2:succeeded
 var alpha = 1
+var lifetime
 
 func _ready():
 	pass
@@ -23,7 +24,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			character = 0
 
 func _process(delta):
-	if elapsed > 10: state = 1
+	if elapsed > lifetime: state = 1
 	if state == 0: 
 		elapsed += delta
 		return
